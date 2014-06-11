@@ -1,6 +1,0 @@
-#!/bin/bash
-set -e
-
-cp -R dist/* ../web-codemotion-publish/
-cd ../web-codemotion-publish
-echo I am dropping it here. Please check, git add and push
