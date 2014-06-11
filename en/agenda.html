@@ -1,0 +1,85 @@
+---
+layout: default-en
+title: Codemotion Spain - Agenda
+categories: [en, agenda]
+permalink: /en/agenda.html
+---
+ 
+{% include menu-en.html active="agenda" topbarClass="fixed" %}
+
+<section>
+  <div class="row contents">
+    <div class="columns">
+      <h1>Agenda</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns">
+      <fieldset class="filter-fieldset">
+        <legend>Technology</legend>
+        <ul class="inline-list filter tag-filter">
+        </ul>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns">
+
+      <fieldset class="filter-fieldset">
+        <legend>Programming language</legend>
+        <ul class="inline-list filter language-filter">
+      </fieldset>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class=" medium-6 columns">
+      <fieldset class="filter-fieldset">
+        <legend>Language</legend>
+        <ul class="inline-list filter lang-filter">
+          <li><a class="label secondary" data-lang="en">English</a></li>
+          <li><a class="label secondary" data-lang="es">Spanish</a></li>
+        </ul>
+      </fieldset>
+    </div>
+    <div class=" medium-6 columns">
+      <fieldset class="filter-fieldset">
+        <legend>Level</legend>
+        <ul class="inline-list filter level-filter">
+          <li><a class="label secondary" data-level="Beginner">Beginner</a></li>
+          <li><a class="label secondary" data-level="Advanced">Advanced</a></li>
+        </ul>
+      </fieldset>
+    </div>
+  </div>
+
+</section>
+
+<section class="contents">
+  <div class="row js-container">
+    <div class="column tabs-container">
+      <ul class="tabs js-talks" data-tab>
+        <li class="tab-title active"><a href="#day1">Fri 21</a></li>
+        <li class="tab-title"><a href="#day2">Sat 22</a></li>
+      </ul>
+      <div class="view-type">
+        <a data-view="asList" class="icon-th-list js-template"></a>
+        <a data-view="asGrid" class="icon-th-large js-template selected"></a>
+      </div>
+    </div>
+  <div class="row">
+    <div class="columns">
+      <div class="tabs-content">
+        <div class="content active" id="day1" data-date="2014-11-21">
+          <noscript>
+          {% include talks.html %}
+          </noscript>
+        </div>
+        <div class="content" id="day2" data-date="2014-11-22">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>

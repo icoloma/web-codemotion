@@ -1,0 +1,36 @@
+<div class="contain-to-grid {{ include.topbarClass }}">
+  <nav class="top-bar" data-topbar  data-options="scrolltop: false">
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="/es" class="top-logo">Codemotion</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a>Menu</a></li>
+    </ul>
+
+    <section class="top-bar-section">
+      <ul class="right">
+        <li {% if include.active == "agenda" %}class="active"{% endif %}><a href="agenda-not-ready.html">Agenda</a></li>
+        <li {% if include.active == "sponsor" %}class="active"{% endif %}><a href="sponsoring.html">Patrocinar</a></li>
+        <!--
+        <li><a href="http://codemotion.koliseo.com">Registro</a></li>
+      -->
+        <li {% if include.active == "c4p" %}class="active"{% endif %}><a href="call-for-papers.html">Call for papers</a></li>
+        <!--
+        <li class="{% if include.active == "c4p" %}active{% endif %} has-dropdown">
+          <a>Call for papers</a>
+          <ul class="dropdown">
+            <li><a href="https://docs.google.com/forms/d/1QS0w2963gRr2MktKXxe_bpx0rB8TeQy4Q5VtN4XouEk/viewform">Speakers</a></li>
+            <li><a href="#">Startups</a></li>
+            <li><a href="#">Volunteers</a></li>
+          </ul>
+        </li>
+      -->
+      </ul>
+      <!-- Left Nav Section 
+      <ul class="left">
+        <li><a href="#">Left Nav Button</a></li>
+      </ul>
+    -->
+    </section>
+  </nav>
+</div>

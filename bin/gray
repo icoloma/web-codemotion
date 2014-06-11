@@ -1,0 +1,8 @@
+#!/bin/bash
+# Transforms an image to the grayscale equivalent
+# Usage:
+# bin/gray src/img/communities/orig/file.jpg
+
+FILENAME=$(echo $1 | sed 's/orig/gray/' | sed 's/\.jpg/.png/' | sed 's/\.jpeg/.png/' )
+echo Writing into "$FILENAME"
+convert "$1" -colorspace Gray -geometry x120 "$FILENAME"

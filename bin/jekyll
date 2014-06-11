@@ -1,0 +1,4 @@
+#!/bin/bash
+# Launches jekyll in the dist folder
+cd dist
+jekyll serve --watch 
