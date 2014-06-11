@@ -1,0 +1,52 @@
+$Artalde-NET: -2px -2px 225px 60px;
+$GDG-Spain: -2px -67px 121px 60px;
+$Internet-of-Things: -2px -132px 66px 60px;
+$MadriAgil: -2px -197px 86px 60px;
+$Madrid-C-C--: -2px -262px 87px 60px;
+$Madrid-GUG: -2px -327px 60px 60px;
+$Madrid-rb: -2px -392px 79px 60px;
+$MadridJS: -2px -457px 200px 60px;
+$MadridJUG: -2px -522px 61px 60px;
+$Makespace-Madrid: -2px -587px 165px 60px;
+$Mozilla-Hispano: -2px -652px 196px 60px;
+$NSCoders-Night-Madrid: -2px -717px 60px 60px;
+$Neo4j-Spain: -2px -782px 80px 60px;
+$Python-Madrid: -2px -847px 29px 60px;
+$RiojaDotNet: -2px -912px 60px 60px;
+$ScalaMAD: -2px -977px 60px 60px;
+$decharlas: -2px -1042px 284px 60px;
+$javaHispano: -2px -1107px 268px 60px;
+
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 3);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 4);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 1);
+  $sprite-offset-y: nth($sprite, 2);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite($sprite) {
+  @include sprite-position($sprite);
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+.community {
+  background-image: url('/img/communities/communities.png');
+}
+
+@media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
+  .community {
+    background-image: url('/img/communities/communities-x2.png');
+    background-size: 289px 1170px;
+  }
+}

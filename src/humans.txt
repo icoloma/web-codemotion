@@ -1,0 +1,18 @@
+# humanstxt.org/
+# Wonder about the names of the trained monkeys behind Codemotion?
+
+# TEAM
+
+    Laura Vignali -- The person that makes this happen -- @laura_vignali
+    Nacho Coloma -- Keeps the fire at bay on IT land -- @nachocoloma
+
+# A huge thanks to all the communities that make this possible. Codemotion
+# would be just two guys without them.
+
+# Okay, and now what you were probably wondering about
+
+    This site uses on the browser:
+    HTML5, CSS3, Foundation 5, jQuery, Modernizr
+
+    On the server:
+    HTML5 Boilerplate, node.js, gulp, jekyll, inkscape and imagemagic

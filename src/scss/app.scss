@@ -1,0 +1,18 @@
+// Foundation by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
+
+// Make sure the charset is set appropriately
+@charset "UTF-8";
+
+// Behold, here are all the Foundation components.
+* {
+  box-sizing: border-box;
+}
+
+@import
+  "variables",
+  "foundation",
+  "communities",
+  "fonts",
+  "styles";

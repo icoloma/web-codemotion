@@ -1,0 +1,70 @@
+---
+layout: default-es
+title: Codemotion Spain - Agenda
+categories: [es, agenda]
+permalink: /es/agenda.html
+---
+ 
+{% include menu-es.html active="agenda" topbarClass="fixed" %}
+
+<section>
+  <div class="row contents">
+    <div class="columns">
+      <h1>Agenda</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns">
+      <fieldset class="filter-fieldset">
+        <legend>Technology</legend>
+        <ul class="inline-list filter tag-filter">
+          <li><a class="label secondary" data-tag="js">JavaScript</a></li>
+          <li><a class="label secondary" data-tag="cloud">Cloud</a></li>
+          <li><a class="label secondary" data-tag="java">Java</a></li>
+        </ul>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns">
+
+      <fieldset class="filter-fieldset">
+        <legend>Programming language</legend>
+        <ul class="inline-list filter language-filter">
+          <li><a class="label secondary" data-language="java">Java</a></li>
+          <li><a class="label secondary" data-language="js">JavaScript</a></li>
+          <li><a class="label secondary" data-language="python">Python</a></li>
+      </fieldset>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class=" medium-6 columns">
+      <fieldset class="filter-fieldset">
+        <legend>Language</legend>
+        <ul class="inline-list filter lang-filter">
+          <li><a class="label secondary" data-lang="en">English</a></li>
+          <li><a class="label secondary" data-lang="es">Spanish</a></li>
+        </ul>
+      </fieldset>
+    </div>
+    <div class=" medium-6 columns">
+      <fieldset class="filter-fieldset">
+        <legend>Level</legend>
+        <ul class="inline-list filter level-filter">
+          <li><a class="label secondary" data-level="Beginner">Beginner</a></li>
+          <li><a class="label secondary" data-level="Advanced">Advanced</a></li>
+        </ul>
+      </fieldset>
+    </div>
+  </div>
+
+</section>
+
+<section class="row contents">
+  <div class="row js-container">
+    {% include talks.html %}
+  </div>
+</section>
+
+</div>

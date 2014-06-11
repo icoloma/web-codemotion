@@ -1,0 +1,11 @@
+#!/bin/bash
+# Update the fontello fonts
+FONTELLO=$(ls -t ~/Downloads/fontello*.zip | head -1)
+
+if [[ -z "$FONTELLO" ]]; then
+  echo 'ERROR: Fontello zip file not found in ~/Downloads!'
+  exit 1
+fi
+unzip -o -d src/scss/fontello -j "$FONTELLO" '*/fontello.*' '*/config.json' '*/fontello-codes.css'
+mv src/scss/fontello/fontello-codes.css src/scss/fontello/fontello-codes.scss
+gulp styles copy

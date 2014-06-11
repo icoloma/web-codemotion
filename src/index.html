@@ -1,0 +1,34 @@
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/css/app.css">
+   <title>You are being redirected</title>
+   <meta http-equiv="refresh" content="0;url=/en/">
+   <script>
+        /* http://stackoverflow.com/questions/10642737/detecting-and-applying-current-system-language-on-html-5-app-on-android */
+        var userAgentLang = navigator.userAgent.match(/android.*\W(\w\w)-(\w\w)\W/i)));
+        , navigatorLang = navigator.language || 
+                navigator.browserLanguage || 
+                navigator.systemLanguage ||
+                navigator.userLanguage
+        , lang = navigatorLang? navigatorLang.substr(0, 2) :
+            userAgentLang? userAgentLang[1] : 
+            "en"
+        , supportedLocales = [ 'es', 'en' ]
+      
+      location.pathname = '/' + (supportedLocales.indexOf(lang) == -1? 'en' : lang) + '/';
+   </script>
+</head>
+<body>
+    <div class="row">
+        <div class="columns text-center contents">
+            <p><img src="/img/logo-gray.png" alt="codemotion">
+        </div>
+        <div class="columns">
+
+            You are being redirected to a page according to your preferred language. If this does not happen, <a href="/en/">click here</a>.
+        </div>
+    </div>
+</body>
+</html>
