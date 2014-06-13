@@ -33,12 +33,16 @@ cd dist && bin/jekyll
 
 # download logos from new communities 
 bin/update-logos
+gulp sprites copy
+
+# create a gray version of a modified logo 
+bin/gray src/img/communities/orig/file.jpg
 
 # download talks
 bin/update-talks
 
-# create a gray version of a modified logo 
-bin/gray src/img/communities/orig/file.jpg
+# upload current Jekyll contents to production
+bin/publish
 
 # update fontello font (after downloading)
 bin/fontello-update
