@@ -8,7 +8,7 @@ The contents of the http://codemotion.es website.
 git clone https://github.com/icoloma/web-codemotion.git
 cd web-codemotion
 sudo npm install -g gulp node-inspector 
-sudo gem install jekyll cairo
+sudo gem install jekyll cairo   # or sudo gem update
 sudo apt-get install libjpeg-dev libgif-dev     # for css-sprites
 npm install
 ```
@@ -42,6 +42,7 @@ bin/gray src/img/communities/orig/file.jpg
 bin/update-talks
 
 # upload current Jekyll contents to production
+git clone -b gh-pages git@github.com:icoloma/web-codemotion.git web-codemotion-publish
 bin/publish
 
 # update fontello font (after downloading)
