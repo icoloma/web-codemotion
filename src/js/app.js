@@ -33,4 +33,9 @@
   // trigger render of talks in agenda page
   $('.js-talks').trigger('toggled')
 
+  // link target to change locale
+  $('.locale a').attr('href', function() { 
+    return location.pathname.replace(/\/((es)|(en))\//, '/' + this.getAttribute('hreflang') + '/')
+  })
+
 })(jQuery, window, window.document)
