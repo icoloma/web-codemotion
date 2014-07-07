@@ -1,23 +1,28 @@
-$Artalde-NET: -2px -2px 225px 60px;
-$Cloudes: -2px -67px 187px 60px;
-$GDG-Spain: -2px -132px 121px 60px;
-$Hackathon-Lovers: -2px -197px 210px 60px;
-$Internet-of-Things: -2px -262px 66px 60px;
-$MadriAgil: -2px -327px 86px 60px;
-$Madrid-C-C--: -2px -392px 87px 60px;
-$Madrid-GUG: -2px -457px 60px 60px;
-$Madrid-rb: -2px -522px 79px 60px;
-$MadridJS: -2px -587px 200px 60px;
-$MadridJUG: -2px -652px 61px 60px;
-$Makespace-Madrid: -2px -717px 165px 60px;
-$Mozilla-Hispano: -2px -782px 196px 60px;
-$NSCoders-Night-Madrid: -2px -847px 60px 60px;
-$Neo4j-Spain: -2px -912px 80px 60px;
-$Python-Madrid: -2px -977px 29px 60px;
-$RiojaDotNet: -2px -1042px 60px 60px;
-$ScalaMAD: -2px -1107px 60px 60px;
-$decharlas: -2px -1172px 284px 60px;
-$javaHispano: -2px -1237px 268px 60px;
+$Accesibilidad-Spain: -2px -2px 60px 60px;
+$Artalde-NET: -2px -67px 225px 60px;
+$Cloudes: -2px -132px 187px 60px;
+$Frontenders-Valencia: -2px -197px 144px 60px;
+$GDG-Spain: -2px -262px 121px 60px;
+$HTML5-Spain: -2px -327px 133px 60px;
+$Hackathon-Lovers: -2px -392px 210px 60px;
+$Internet-of-Things: -2px -457px 66px 60px;
+$MadriAgil: -2px -522px 86px 60px;
+$Madrid-C-C--: -2px -587px 87px 60px;
+$Madrid-GUG: -2px -652px 60px 60px;
+$Madrid-rb: -2px -717px 79px 60px;
+$MadridJS: -2px -782px 200px 60px;
+$MadridJUG: -2px -847px 61px 60px;
+$Makespace-Madrid: -2px -912px 165px 60px;
+$Mozilla-Hispano: -2px -977px 196px 60px;
+$NSCoders-Night-Madrid: -2px -1042px 60px 60px;
+$Neo4j-Spain: -2px -1107px 80px 60px;
+$Node-js-Madrid: -2px -1172px 138px 60px;
+$PHPMad: -2px -1237px 60px 60px;
+$Python-Madrid: -2px -1302px 29px 60px;
+$RiojaDotNet: -2px -1367px 60px 60px;
+$ScalaMAD: -2px -1432px 60px 60px;
+$decharlas: -2px -1497px 284px 60px;
+$javaHispano: -2px -1562px 268px 60px;
 
 @mixin sprite-width($sprite) {
   width: nth($sprite, 3);
@@ -49,6 +54,6 @@ $javaHispano: -2px -1237px 268px 60px;
 @media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   .community {
     background-image: url('/img/communities/communities-x2.png');
-    background-size: 289px 1300px;
+    background-size: 289px 1625px;
   }
 }
