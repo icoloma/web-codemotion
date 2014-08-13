@@ -1,6 +1,7 @@
 'use strict';
 
 var http = require('http')
+  , https = require('https')
   , fs = require('fs')
   , _ = require("lodash")
 ;
@@ -53,7 +54,8 @@ module.exports = {
 
     // download and do some magic
     console.log(" from " + file.url);
-    http.get(file.url, function(response) {
+    var protocol = file.url.indexOf('https')? http : https;
+    protocol.get(file.url, function(response) {
       var originalFile = fs.createWriteStream(originalFilename);
       response.pipe(originalFile);
       originalFile.on('finish', function() {

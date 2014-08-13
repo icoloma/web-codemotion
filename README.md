@@ -29,7 +29,7 @@ Building:
 gulp
 
 # launch jekyll in the dist/ folder
-cd dist && bin/jekyll
+bin/jekyll
 
 # download logos from new communities 
 bin/update-logos

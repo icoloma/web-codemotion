@@ -27,32 +27,33 @@ var GoogleSpreadsheets = require("google-spreadsheets")
 ;
 
 GoogleSpreadsheets({
-    key: "0AmkCNiqwFZKCdDM5N09iYXVhTkNXQUhQcUZwOWF4ZlE"
+    key: "1RHoQpagq_HazDkOtBQCdc-5df7knqqqvb_3ng7Ncj3I"
 }, function(err, spreadsheet) {
     spreadsheet.worksheets[0].cells({
-        range: "R2C1:R100C25"
+        range: "R2C1:R300C26"
     }, function(err, cells) {
       
       // transformar la hoja Excel en charlas
       var talks = [];
       _.forEach(cells.cells, function(row) {
-        var date = getValue(row['17']);
-        if (date) {
+        //console.log(row);
+        var track = getValue(row['24']);
+        if (track) {
           talks.push({
             'author': getValue(row['2']),
-            'bio': '', // TBD: the author bio
-            'title': getValue(row['4']),
+            'language': getValue(row['4']),
             'tags': getValue(row['5']).split(','),
-            'language': getValue(row['6']),
-            'languages': getValue(row['18']).split(','),
-            'date': date.split('T')[0],
-            'time': date.split('T')[1],
+            'languages': getValue(row['6']).split(','),
             'slotType': getValue(row['8']),
             'description': getValue(row['9']),
             'communities': _.compact([getValue(row['10']), getValue(row['11']), getValue(row['12'])]),
             'avatar': getValue(row['13']),
             'level': getValue(row['14']),
-            'track': getValue(row['16'])
+            'bio': getValue(row['16']),
+            'title': getValue(row['17']),
+            'track': track,
+            'date': getValue(row['25']),
+            'time': getValue(row['26']),
           })
         }
       });

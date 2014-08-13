@@ -8,6 +8,11 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
   
   var talks = require('./data.js')
     , _ = require('../vendor/lodash-2.4.1.min')
+    , talkByKey = _.reduce(talks, function(result, talk) {
+      talk.key = talk['date'] + 'T' + talk['time'] + '-' + talk.track
+      result[talk.key] = talk
+      return result
+    }, {})
     // active filters
     , filters = {
       tag: [],
@@ -16,16 +21,18 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
       level: '',
     }
     , schedules = [
-      { time: '09:00', endTime: '10:00' },
-      { time: '10:00', endTime: '11:00' },
-      { time: '11:00', endTime: '11:30', value: 'COFEE BREAK' },
-      { time: '11:30', endTime: '12:30' },
-      { time: '12:30', endTime: '13:30' },
-      { time: '13:30', endTime: '15:30', value: 'LUNCH' },
-      { time: '15:30', endTime: '16:30' },
-      { time: '16:30', endTime: '17:30' },
-      { time: '17:30', endTime: '18:30' },
-      { time: '18:30', endTime: '19:30', value: 'Networking beer' }
+      { time: '08:00', endTime: '09:00' },
+      { time: '09:00', endTime: '09:45' },
+      { time: '09:45', endTime: '10:30' },
+      { time: '10:45', endTime: '11:30' },
+      { time: '11:30', endTime: '12:15', value: 'COFEE BREAK' },
+      { time: '12:15', endTime: '13:00' },
+      { time: '13:15', endTime: '14:00' },
+      { time: '14:00', endTime: '15:00', value: 'LUNCH' },
+      { time: '15:00', endTime: '15:45' },
+      { time: '16:00', endTime: '16:45' },
+      { time: '17:00', endTime: '17:45' },
+      { time: '18:00', endTime: '20:00', value: 'Networking beer' }
     ]
     , imports = {
 
@@ -91,9 +98,9 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
                 '<% } else { %>' +
                   '<% _.forEach(tracks, function(track, index) { %>' +
                     '<td class="text-center">' +
-                    '<% if (schedule.talks[index + 1]) { %>' +
-                      '<span><a class="talk-a" data-schedule-index="{{scheduleIndex}}" data-talk-index="{{index + 1}}">{{schedule.talks[index + 1].title}}</a></span><br>' +
-                      '<span>{{schedule.talks[index + 1].author}}</span>' +
+                    '<% if (schedule.talks[track]) { %>' +
+                      '<span><a class="talk-a" data-talk-key="{{ schedule.talks[track].key }}">{{schedule.talks[track].title}}</a></span><br>' +
+                      '<span>{{schedule.talks[track].author}}</span>' +
                     '<% } %>' +
                     '</td>' +
                   '<% }); %>' +
@@ -134,7 +141,7 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
         , currentDate = $container.data('date')
       ;
       filteredTalks = _.filter(filteredTalks, function(talk) {
-        return talk.date.indexOf(currentDate) === 0;
+        return talk.date === currentDate;
       });
       if (filteredTalks.length) {
         var view = views[$('.js-template.selected').data('view')];
@@ -226,7 +233,7 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
 
   $(document).on('click', '.talk-a', function(e) {
     var $a = $(e.currentTarget)
-    , talk = schedules[+$a.data('schedule-index')].talks[+$a.data('talk-index')]
+    , talk = talkByKey[$a.data('talk-key')]
     $('.preview').remove();
     $(e.currentTarget).closest('tr').after(_.template(
       '<tr class="preview"><td></td><td colspan="8">' +
