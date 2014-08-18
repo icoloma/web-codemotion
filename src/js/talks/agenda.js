@@ -57,13 +57,13 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
                 '<img class="th toright avatar" src="{{talk.avatar}}">' +
               '<% } %>' + 
               '<h1>{{talk.title}}</h1>' +
-              '<p>{{talk.description}}' +
+              '<p>{{{talk.description}}}' +
                 '<br><small>' +
                   'Author: {{talk.author}}' +
                   '<br>' +
                     '<span class="secondary label {{talk.level}}"> {{talk.level}}</span> ' +
-                    '{{concatTags(talk.tags, "radius")}} ' +
-                    '{{concatTags(talk.languages, "secondary round")}} ' +
+                    '{{{concatTags(talk.tags, "radius")}}} ' +
+                    '{{{concatTags(talk.languages, "secondary round")}}} ' +
                   '<br>{{talk.time}} {{talk.track}}' +
                 '</small>' +
               '</p>' +

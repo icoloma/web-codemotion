@@ -1,7 +1,6 @@
 'use strict';
 
-var http = require('http')
-  , https = require('https')
+var restler = require('restler')
   , fs = require('fs')
   , _ = require("lodash")
 ;
@@ -54,28 +53,41 @@ module.exports = {
 
     // download and do some magic
     console.log(" from " + file.url);
-    var protocol = file.url.indexOf('https')? http : https;
-    protocol.get(file.url, function(response) {
-      var originalFile = fs.createWriteStream(originalFilename);
-      response.pipe(originalFile);
-      originalFile.on('finish', function() {
-        originalFile.close();
+    restler.get(file.url).on('complete', function(data, response) {
+      if (data instanceof Error) {
+        console.log('Error:', data);
+        return;
+      }
+
+      fs.writeFile(originalFilename, response.raw, function(err) { 
+        if (err) {
+          throw err 
+        } 
+
         var files = { 
           originalFilename: originalFilename, 
           processedFilename: options.processedFilename
         }
 
+        var conversionDoneCallback = function(error, stdout, stderr) {
+          if (error) {
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            console.log('Error: ' + error);
+          }
+        }
         if (extension == '.svg' || extension == '.ai' || extension == '.eps') {
           // vector to png
-          echoExec(_.template(options.vectorToPng, files));
+          echoExec(_.template(options.vectorToPng, files, conversionDoneCallback));
         } else {
           // jpg|png|whatever to png
-          echoExec(_.template(options.toPng, files));
+          echoExec(_.template(options.toPng, files, conversionDoneCallback));
         }
 
         callback();
-      
+
       });
-    });
+
+    })
   }
 }
