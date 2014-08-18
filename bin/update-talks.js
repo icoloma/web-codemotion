@@ -37,22 +37,22 @@ GoogleSpreadsheets({
       var talks = [];
       _.forEach(cells.cells, function(row) {
         //console.log(row);
-        var track = getValue(row['24']);
+        var track = getValue(row['25']);
         if (track) {
           talks.push({
             'author': getValue(row['2']),
             'language': getValue(row['4']),
-            'tags': getValue(row['5']).split(','),
-            'languages': getValue(row['6']).split(','),
+            'tags': _.without(getValue(row['5']).split(','), ''),
+            'languages': _.without(getValue(row['6']).split(','), ''),
             'slotType': getValue(row['8']),
-            'description': getValue(row['9']),
+            'description': getValue(row['9']).replace(/(\n *)+/g, '</p><p>'),
             'communities': _.compact([getValue(row['10']), getValue(row['11']), getValue(row['12'])]),
             'avatar': getValue(row['13']),
             'level': getValue(row['14']),
             'bio': getValue(row['16']),
             'title': getValue(row['17']),
+            'date': getValue(row['24']),
             'track': track,
-            'date': getValue(row['25']),
             'time': getValue(row['26']),
           })
         }
@@ -60,7 +60,7 @@ GoogleSpreadsheets({
 
       _.each(talks, function(talk) {
         if (talk.avatar) {
-          var name = talk.title.toLowerCase().replace(/ /g,'-');
+          var name = talk.title.toLowerCase().trim().replace(/[^ a-zA-Z0-9\-_]+/g, '').replace(/ +/g, '-');
           if (name.length > FILENAME_MAX_SIZE) {
             name.substring(0, FILENAME_MAX_SIZE);
           }

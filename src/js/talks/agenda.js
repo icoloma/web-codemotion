@@ -152,7 +152,8 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
     }
   ;
 
-  _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+  _.templateSettings.interpolate = /\{\{\{([^}]+?)\}\}\}/g;
+  _.templateSettings.escape = /\{\{([^\{][^}]+?)\}\}/g;
   talks = _.sortBy(talks, ['date', 'title']);
 
   var generatedFilters = [{
@@ -166,6 +167,7 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
     var $filter = $('.' + filter.name + '-filter')
       , values = _.chain(talks)
           .flatten(filter.prop)
+          .map(function(s) { return s.trim() })
           .sortBy(function(value) {
             return value.toLowerCase();
           })
@@ -239,11 +241,10 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
       '<tr class="preview"><td></td><td colspan="8">' +
         '<div class="small-6 columns">' +
           '<h5>{{title}} <small>by {{author}}</small></h5>' +
-          '<p>{{description}} ' +
-          '</p>' +
+          '<p>{{{description}}}</p>' +
           '<span class="secondary label {{level}}"> {{level}}</span> ' +
-          '{{concatTags(tags, "radius")}} ' +
-          '{{concatTags(languages, "secondary round")}} ' +
+          '{{{concatTags(tags, "radius")}}} ' +
+          '{{{concatTags(languages, "secondary round")}}} ' +
           ' {{slotType}} ' +
         '</div>' +
         '<div class="small-6 columns">' +
