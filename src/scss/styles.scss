@@ -312,6 +312,9 @@ legend {
 .agenda-table th, .agenda-table td {
   border-bottom: 1px solid #ddd;
 }
+.agenda-table th {
+  white-space: nowrap;
+}
 .agenda-table td {
   background-color: #fff;
 

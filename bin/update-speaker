@@ -1,8 +1,9 @@
 #!/bin/bash
 # Cambia la foto de un ponente
 # Parámetros:
-# $1: la URL de la que descargarse la foto
-# $2: el fichero a sustituir en src/img/talks/orig (full path)
+# $1: el fichero a sustituir en src/img/talks/orig (full path)
 
-wget $1 > $2
-convert $2 -geometry 100x100 $(echo $2 | sed s/orig/processed/ )
+FILENAME=$( echo $1 | sed s/orig/processed/ )
+echo "Converting file into ${FILENAME%.*}.png"
+
+convert $1 -geometry 100x100 ${FILENAME%.*}.png
