@@ -49,7 +49,7 @@ GoogleSpreadsheets({
             'communities': _.compact([getValue(row['10']), getValue(row['11']), getValue(row['12'])]),
             'avatar': getValue(row['13']),
             'level': getValue(row['14']),
-            'bio': getValue(row['16']),
+            'bio': getValue(row['16']).replace(/(\n *)+/g, '</p><p>'),
             'title': getValue(row['17']),
             'date': getValue(row['24']),
             'track': track,
@@ -57,6 +57,11 @@ GoogleSpreadsheets({
           })
         }
       });
+
+      // sort the talks for the list view
+      talks = _.sortBy(talks, function(talk) {
+        return talk.date + '-' + talk.time + '-' + talk.track;
+      })
 
       _.each(talks, function(talk) {
         if (talk.avatar) {

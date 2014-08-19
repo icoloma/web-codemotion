@@ -2,10 +2,6 @@
 
   'use strict';
 
-/*
-Talk format: "author", "title", "tags"[],"language","languages"[],"date","time","slotType","description","communities","avatar","level","track"
-*/
-  
   var talks = require('./data.js')
     , _ = require('../vendor/lodash-2.4.1.min')
     , talkByKey = _.reduce(talks, function(result, talk) {
@@ -49,7 +45,7 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
     }
     , views = {
       asList: function(talksCollection) {
-        return _.template('<ul class="unstyled small-block-grid-1 medium-block-grid-2">' +
+        return _.template('<div class="columns"><ul class="unstyled small-block-grid-1 medium-block-grid-2">' +
           '<% _.forEach(talks, function(talk) { %>' +
             '<li>' +
               '<article class="talk">' +
@@ -57,20 +53,19 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
                 '<img class="th toright avatar" src="{{talk.avatar}}">' +
               '<% } %>' + 
               '<h1>{{talk.title}}</h1>' +
-              '<p>{{{talk.description}}}' +
+              '<p class="cright">{{{talk.description}}}' +
                 '<br><small>' +
-                  'Author: {{talk.author}}' +
+                  'Author: {{talk.author}} &middot; <b>{{talk.time}} {{talk.track}}</b>' +
                   '<br>' +
                     '<span class="secondary label {{talk.level}}"> {{talk.level}}</span> ' +
                     '{{{concatTags(talk.tags, "radius")}}} ' +
                     '{{{concatTags(talk.languages, "secondary round")}}} ' +
-                  '<br>{{talk.time}} {{talk.track}}' +
                 '</small>' +
               '</p>' +
               '</article>' +
             '</li>' +
           '<% }); %>' +
-        '</ul>', { 
+        '</ul></div>', { 
           talks: talksCollection
         }, imports);
       }
@@ -147,14 +142,13 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
         var view = views[$('.js-template.selected').data('view')];
         $container.html(view(filteredTalks));
       } else {
-        $container.html('<div class="panel callout radius">No results found</div>');
+        $container.html('<div class="columns"><div class="panel callout radius">No results found</div></div>');
       }
     }
   ;
 
   _.templateSettings.interpolate = /\{\{\{([^}]+?)\}\}\}/g;
   _.templateSettings.escape = /\{\{([^\{][^}]+?)\}\}/g;
-  talks = _.sortBy(talks, ['date', 'title']);
 
   var generatedFilters = [{
     name: 'tag',
@@ -237,22 +231,32 @@ Talk format: "author", "title", "tags"[],"language","languages"[],"date","time",
     var $a = $(e.currentTarget)
     , talk = talkByKey[$a.data('talk-key')]
     $('.preview').remove();
+    $('.talk-active').removeClass('talk-active');
+    $a.closest('td').addClass('talk-active');
+
     $(e.currentTarget).closest('tr').after(_.template(
       '<tr class="preview"><td></td><td colspan="8">' +
-        '<div class="small-6 columns">' +
-          '<h5>{{title}} <small>by {{author}}</small></h5>' +
-          '<p>{{{description}}}</p>' +
-          '<span class="secondary label {{level}}"> {{level}}</span> ' +
-          '{{{concatTags(tags, "radius")}}} ' +
-          '{{{concatTags(languages, "secondary round")}}} ' +
-          ' {{slotType}} ' +
-        '</div>' +
-        '<div class="small-6 columns">' +
-          '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
-          '<h5>About {{author}}</h5>' +
-          '{{bio}}' +
+        '<div class="preview-contents zoomed">' +
+          '<div class="small-6 columns">' +
+            '<h5>{{title}} <small>by {{author}}</small></h5>' +
+            '<p>{{{description}}}</p>' +
+          '</div>' +
+          '<div class="small-6 columns">' +
+            '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
+            '<h5>About {{author}}</h5>' +
+            '{{bio}}' +
+          '</div>' +
+          '<div class="columns">' +
+            '<p><span class="secondary label {{level}}"> {{level}}</span> ' +
+              '{{{concatTags(tags, "radius")}}} ' +
+              '{{{concatTags(languages, "secondary round")}}} ' +
+              '<span class="nowrap">{{slotType}}</span> ' +
+          '</div>' +
         '</div>' +
       '</td></tr>', talk, imports));
+
+    // "appear" effect
+    _.defer(function() { $('.zoomed').removeClass('zoomed'); });
   })
 
 })()
