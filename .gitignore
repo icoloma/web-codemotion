@@ -7,3 +7,4 @@ node_modules
 .idea
 _site
 *.orig
+img/talks/orig/
