@@ -1,0 +1,10 @@
+<div class="columns small-12 medium-6">
+
+  <p class="text-center">
+    {% if include.href != null %}<a href="{{ include.href }}" target="_blank">{% endif %}
+      <img class="avatar-big" src="{{ include.img }}" alt="{{ include.name }}">
+    {% if include.href != null %}</a>{% endif %}
+  </p>
+  <h3 class="text-center">{{ include.name }}</h3>
+  <p>{{ include.description }}
+</div>

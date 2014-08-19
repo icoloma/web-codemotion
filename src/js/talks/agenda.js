@@ -17,8 +17,8 @@
       level: '',
     }
     , schedules = [
-      { time: '08:00', endTime: '09:00' },
-      { time: '09:00', endTime: '09:45' },
+      { time: '08:00', endTime: '09:00', value: 'REGISTER AND PICK UP YOUR BADGE' },
+      { time: '09:00', endTime: '09:45', value: 'KEYNOTE' },
       { time: '09:45', endTime: '10:30' },
       { time: '10:45', endTime: '11:30' },
       { time: '11:30', endTime: '12:15', value: 'COFEE BREAK' },
@@ -28,7 +28,7 @@
       { time: '15:00', endTime: '15:45' },
       { time: '16:00', endTime: '16:45' },
       { time: '17:00', endTime: '17:45' },
-      { time: '18:00', endTime: '20:00', value: 'Networking beer' }
+      { time: '18:00', endTime: '20:00', value: 'NETWORKING BEER' }
     ]
     , imports = {
 
@@ -43,15 +43,45 @@
       }
 
     }
+    , renderScheduleTable = function(schedule, tracks) {
+      return _.template(
+          '<table class="agenda-table"><thead><tr>' + 
+            '<th></th>' +
+            '<% _.forEach(tracks, function(track) { %>' +
+              '<th class="text-center">{{ track }}</th>' +
+            '<% }); %>' +
+          '</tr></thead><tbody>' +
+            '<% _.forEach(schedules, function(schedule, scheduleIndex) { %>' +
+              '<tr>' +
+                '<td class="schedule-time">{{schedule.time}}-{{schedule.endTime}}</td>' +
+                '<% if (schedule.value) { %>' + 
+                  '<td colspan="{{colspan}}" class="text-center break">{{schedule.value}}</td>' +
+                '<% } else { %>' +
+                  '<% _.forEach(tracks, function(track, index) { %>' +
+                    '<td class="text-center <% if (schedule.talks[track] && schedule.talks[track].slotType == "Workshop (2 hours)") { %>workshop<% } %>"> ' +
+                    '<% if (schedule.talks[track]) { %>' +
+                      '<span><a class="talk-a" data-talk-key="{{ schedule.talks[track].key }}">{{schedule.talks[track].title}}</a></span><br>' +
+                      '<span>{{schedule.talks[track].author}}</span>' +
+                    '<% } %>' +
+                    '</td>' +
+                  '<% }); %>' +
+                '<% } %>' +
+              '</tr>' +
+            '<% }); %>' +
+          '</tbody></table>', {
+          colspan: tracks.length,
+          schedules: schedules,
+          tracks: tracks
+        });
+    }
     , views = {
       asList: function(talksCollection) {
         return _.template('<div class="columns"><ul class="unstyled small-block-grid-1 medium-block-grid-2">' +
           '<% _.forEach(talks, function(talk) { %>' +
             '<li>' +
               '<article class="talk">' +
-              '<% if (talk.avatar) { %>' +
-                '<img class="th toright avatar" src="{{talk.avatar}}">' +
-              '<% } %>' + 
+              '<% if (talk.avatar) { %><img class="th toright avatar" src="{{talk.avatar}}"><% } %>' + 
+              '<% if (talk.avatar2) { %><img class="th toright avatar" src="{{talk.avatar2}}"><% } %>' + 
               '<h1>{{talk.title}}</h1>' +
               '<p class="cright">{{{talk.description}}}' +
                 '<br><small>' +
@@ -69,8 +99,8 @@
           talks: talksCollection
         }, imports);
       }
+
       , asGrid: function(talksCollection) {
-        var tracks = ['Track 1','Track 2','Track 3','Track 4','Track 5','Track 6','Track 7','Track 8'];
         schedules = _.map(schedules, function(schedule) {
           var talks = _.filter(talksCollection, function(talk) {
             return schedule.time === talk.time;
@@ -78,34 +108,10 @@
           schedule.talks = _.indexBy(talks, 'track');
           return schedule;
         });
-        return _.template(
-          '<table class="agenda-table"><thead><tr>' + 
-            '<th></th>' +
-            '<% _.forEach(tracks, function(track) { %>' +
-              '<th class="text-center">{{ track }}</th>' +
-            '<% }); %>' +
-          '</tr></thead><tbody>' +
-            '<% _.forEach(schedules, function(schedule, scheduleIndex) { %>' +
-              '<tr>' +
-                '<td class="schedule-time">{{schedule.time}}-{{schedule.endTime}}</td>' +
-                '<% if (schedule.value) { %>' + 
-                  '<td colspan="8" class="text-center break">{{schedule.value}}</td>' +
-                '<% } else { %>' +
-                  '<% _.forEach(tracks, function(track, index) { %>' +
-                    '<td class="text-center">' +
-                    '<% if (schedule.talks[track]) { %>' +
-                      '<span><a class="talk-a" data-talk-key="{{ schedule.talks[track].key }}">{{schedule.talks[track].title}}</a></span><br>' +
-                      '<span>{{schedule.talks[track].author}}</span>' +
-                    '<% } %>' +
-                    '</td>' +
-                  '<% }); %>' +
-                '<% } %>' +
-              '</tr>' +
-            '<% }); %>' +
-          '</tbody></table>', {
-          schedules: schedules,
-          tracks: tracks
-        });
+        return '<div class="columns">' + 
+          '<h1>Talks</h1>' + renderScheduleTable(schedules, ['Track 1','Track 2','Track 3','Track 4','Track 5','Track 6','Track 7','Track 8']) +
+          '<h2>Workshops</h2>' + renderScheduleTable(schedules, ['Track A','Track B']) +
+          '</div>'
       }
     }
     , render = function() {
@@ -234,8 +240,9 @@
     $('.talk-active').removeClass('talk-active');
     $a.closest('td').addClass('talk-active');
 
-    $(e.currentTarget).closest('tr').after(_.template(
-      '<tr class="preview"><td></td><td colspan="8">' +
+    var $tr = $(e.currentTarget).closest('tr');
+    $tr.after(_.template(
+      '<tr class="preview"><td></td><td colspan="{{colspan}}">' +
         '<div class="preview-contents zoomed">' +
           '<div class="small-6 columns">' +
             '<h5>{{title}} <small>by {{author}}</small></h5>' +
@@ -244,7 +251,7 @@
           '<div class="small-6 columns">' +
             '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
             '<h5>About {{author}}</h5>' +
-            '{{bio}}' +
+            '<p>{{{bio}}}' +
           '</div>' +
           '<div class="columns">' +
             '<p><span class="secondary label {{level}}"> {{level}}</span> ' +
@@ -253,7 +260,9 @@
               '<span class="nowrap">{{slotType}}</span> ' +
           '</div>' +
         '</div>' +
-      '</td></tr>', talk, imports));
+      '</td></tr>', _.extend({
+        colspan: $tr.children('td').length - 1
+      }, talk), imports));
 
     // "appear" effect
     _.defer(function() { $('.zoomed').removeClass('zoomed'); });

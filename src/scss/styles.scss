@@ -40,7 +40,9 @@ background: #008CBA;
 .fixed {
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
 }
-
+.avatar-big {
+  border-radius: 50%;
+}
 .top-bar a {
   text-decoration: none;
   text-transform: uppercase;
@@ -344,10 +346,10 @@ legend {
 }
 
 .agenda-table {
-  width: 1248px;
+  width: 1215px;
 }
 
-.agenda-table th, .agenda-table td {
+.agenda-table th, .agenda-table td:not(.workshop) {
   border-bottom: 1px solid #ddd;
 }
 .agenda-table th {

@@ -51,6 +51,7 @@ GoogleSpreadsheets({
             'level': getValue(row['14']),
             'bio': getValue(row['16']).replace(/(\n *)+/g, '</p><p>'),
             'title': getValue(row['17']),
+            //'avatar2': getValue(row['19']), demasiado lío
             'date': getValue(row['24']),
             'track': track,
             'time': getValue(row['26']),
