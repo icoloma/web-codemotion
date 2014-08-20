@@ -18,6 +18,11 @@ var GoogleSpreadsheets = require("google-spreadsheets")
   , getValue = function(o) { 
     return o && o.value || ''
   }
+  , getSplittedValue = function(s) {
+    var values = getValue(s).split(','); // split by comma
+    values = _.map(values, function(v) { return v.trim() }); // remove spaces
+    return _.without(values, '') // remove empty values
+  }
   , echoExec = function(command, options, callback) {
     // executes and logs the command
     console.log(command)
@@ -42,8 +47,8 @@ GoogleSpreadsheets({
           talks.push({
             'author': getValue(row['2']),
             'language': getValue(row['4']),
-            'tags': _.without(getValue(row['5']).split(','), ''),
-            'languages': _.without(getValue(row['6']).split(','), ''),
+            'tags': getSplittedValue(row['5']),
+            'languages': getSplittedValue(row['6']),
             'slotType': getValue(row['8']),
             'description': getValue(row['9']).replace(/(\n *)+/g, '</p><p>'),
             'communities': _.compact([getValue(row['10']), getValue(row['11']), getValue(row['12'])]),
