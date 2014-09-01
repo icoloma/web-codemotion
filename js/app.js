@@ -8227,7 +8227,7 @@ exports.communities=[{"className":"GDG-Spain","name":"GDG Spain","url":"http://w
   })
 
 })(jQuery, window, window.document)
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_60ccd104.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_bf6d4635.js","/")
 },{"./communities":6,"./talks/agenda.js":8,"./vendor/foundation/foundation":11,"./vendor/foundation/foundation.interchange":10,"./vendor/foundation/foundation.tab":12,"./vendor/foundation/foundation.topbar":13,"buffer":1,"lodash":5,"oMfpAn":4}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 (function() {
@@ -8487,36 +8487,52 @@ exports.communities=[{"className":"GDG-Spain","name":"GDG Spain","url":"http://w
   $(document).on('click', '.talk-a', function(e) {
     var $a = $(e.currentTarget)
     , talk = talkByKey[$a.data('talk-key')]
-    $('.preview').remove();
-    $('.talk-active').removeClass('talk-active');
-    $a.closest('td').addClass('talk-active');
 
-    var $tr = $(e.currentTarget).closest('tr');
-    $tr.after(_.template(
-      '<tr class="preview"><td></td><td colspan="{{colspan}}">' +
-        '<div class="preview-contents zoomed">' +
-          '<div class="small-6 columns">' +
-            '<h5>{{title}} <small>by {{author}}</small></h5>' +
-            '<p>{{{description}}}</p>' +
-          '</div>' +
-          '<div class="small-6 columns">' +
-            '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
-            '<h5>About {{author}}</h5>' +
-            '<p>{{{bio}}}' +
-          '</div>' +
-          '<div class="columns">' +
-            '<p><span class="secondary label {{level}}"> {{level}}</span> ' +
-              '{{{concatTags(tags, "radius")}}} ' +
-              '{{{concatTags(languages, "secondary round")}}} ' +
-              '<span class="nowrap">{{slotType}}</span> ' +
-          '</div>' +
-        '</div>' +
-      '</td></tr>', _.extend({
-        colspan: $tr.children('td').length - 1
-      }, talk), imports));
+    if ($a.is('.talk-active a')) {
+      $('.preview-contents').addClass('zoomed out');
+      $('.talk-active').removeClass('talk-active');
 
-    // "appear" effect
-    _.defer(function() { $('.zoomed').removeClass('zoomed'); });
+      var $preview = $('.preview');
+
+      // polyfilled if necessary
+      _.delay(function() {
+        $preview.remove();
+      }, 250)
+    } else {
+
+      $('.preview').remove();
+      $('.talk-active').removeClass('talk-active');
+
+      $a.closest('td').addClass('talk-active');
+
+      var $tr = $(e.currentTarget).closest('tr');
+      $tr.after(_.template(
+        '<tr class="preview"><td></td><td colspan="{{colspan}}">' +
+          '<div class="preview-contents zoomed">' +
+            '<div class="small-6 columns">' +
+              '<h5>{{title}} <small>by {{author}}</small></h5>' +
+              '<p>{{{description}}}</p>' +
+            '</div>' +
+            '<div class="small-6 columns">' +
+              '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
+              '<h5>About {{author}}</h5>' +
+              '<p>{{{bio}}}' +
+            '</div>' +
+            '<div class="columns">' +
+              '<p><span class="secondary label {{level}}"> {{level}}</span> ' +
+                '{{{concatTags(tags, "radius")}}} ' +
+                '{{{concatTags(languages, "secondary round")}}} ' +
+                '<span class="nowrap">{{slotType}}</span> ' +
+            '</div>' +
+          '</div>' +
+        '</td></tr>', _.extend({
+          colspan: $tr.children('td').length - 1
+        }, talk), imports));
+
+      // "appear" effect
+      _.defer(function() { $('.zoomed').removeClass('zoomed'); });
+    }
+
   })
 
 })()
