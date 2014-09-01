@@ -405,11 +405,19 @@ $fast: .2s;
 }
 
   .preview-contents {
-    -webkit-transition: opacity $fast ease-out, transform $fast ease-out;
-    transition: opacity $fast ease-out, transform $fast ease-out;
+    -webkit-transition: opacity $fast ease-out, transform $fast ease-out, height $fast ease-out;
+    transition: opacity $fast ease-out, transform $fast ease-out, height $fast ease-out;
+    overflow: hidden;
+
     &.zoomed {
       transform: scale(1.05);
       -webkit-transform: scale(1.05);
+      opacity: .2;
+    }
+
+    &.out {
+      transform: translatey(-30px);
+      -webkit-transform: translatey(-30px);
       opacity: .2;
     }
   }

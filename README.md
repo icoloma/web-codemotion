@@ -8,8 +8,8 @@ The contents of the http://codemotion.es website.
 git clone https://github.com/icoloma/web-codemotion.git
 cd web-codemotion
 sudo npm install -g gulp node-inspector 
-sudo gem install jekyll cairo   # or sudo gem update
-sudo apt-get install libjpeg-dev libgif-dev     # for css-sprites
+sudo gem install jekyll cairo tmuxinator   # or sudo gem update
+sudo apt-get install libjpeg-dev libgif-dev tmux     # for css-sprites
 npm install
 ```
 
@@ -49,4 +49,8 @@ bin/publish
 bin/fontello-update
 ```
 
+Alternatively, launch the dev environment (gulp, jekyll, and a working shell)
 
+```
+./dev.yml
+```

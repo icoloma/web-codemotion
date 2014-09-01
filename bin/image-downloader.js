@@ -37,22 +37,19 @@ module.exports = {
     })
 
     // if url is not empty
-    process.stdout.write("File download for " + file.name);
     if (!file.url || file.url.replace(/ /, "") == 'N/A') {
-      console.log(" skipped (url is not defined)");
       callback();
       return
     } 
 
     // and we don't have it yet
     if (fs.existsSync(originalFilename)) {
-      console.log(" skipped (file exists at " + originalFilename + ")");
       callback();
       return;
     }
 
     // download and do some magic
-    console.log(" from " + file.url);
+    console.log("File download for " + file.name + " from " + file.url);
     restler.get(file.url).on('complete', function(data, response) {
       if (data instanceof Error) {
         console.log('Error:', data);

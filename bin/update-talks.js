@@ -44,7 +44,9 @@ GoogleSpreadsheets({
         //console.log(row);
         var track = getValue(row['25']);
         if (track) {
+          var title = getValue(row['17']);
           talks.push({
+            'id': title.toLowerCase().trim().replace(/[^ a-zA-Z0-9\-_]+/g, '').replace(/ +/g, '-'),
             'author': getValue(row['2']),
             'language': getValue(row['4']),
             'tags': getSplittedValue(row['5']),
@@ -55,7 +57,7 @@ GoogleSpreadsheets({
             'avatar': getValue(row['13']),
             'level': getValue(row['14']),
             'bio': getValue(row['16']).replace(/(\n *)+/g, '</p><p>'),
-            'title': getValue(row['17']),
+            'title': title,
             //'avatar2': getValue(row['19']), demasiado lío
             'date': getValue(row['24']),
             'track': track,
@@ -71,7 +73,7 @@ GoogleSpreadsheets({
 
       _.each(talks, function(talk) {
         if (talk.avatar) {
-          var name = talk.title.toLowerCase().trim().replace(/[^ a-zA-Z0-9\-_]+/g, '').replace(/ +/g, '-');
+          var name = talk.id;
           if (name.length > FILENAME_MAX_SIZE) {
             name.substring(0, FILENAME_MAX_SIZE);
           }

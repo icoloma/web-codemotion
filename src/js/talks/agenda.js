@@ -24,11 +24,11 @@
       { time: '11:30', endTime: '12:15', value: 'COFEE BREAK' },
       { time: '12:15', endTime: '13:00' },
       { time: '13:15', endTime: '14:00' },
-      { time: '14:00', endTime: '15:00', value: 'LUNCH' },
-      { time: '15:00', endTime: '15:45' },
-      { time: '16:00', endTime: '16:45' },
-      { time: '17:00', endTime: '17:45' },
-      { time: '18:00', endTime: '20:00', value: 'NETWORKING BEER' }
+      { time: '14:00', endTime: '15:30', value: 'LUNCH' },
+      { time: '15:30', endTime: '16:15' },
+      { time: '16:30', endTime: '17:15' },
+      { time: '17:30', endTime: '18:15' },
+      { time: '18:30', endTime: '20:30', value: 'NETWORKING BEER' }
     ]
     , imports = {
 
@@ -43,9 +43,9 @@
       }
 
     }
-    , renderScheduleTable = function(schedule, tracks) {
+    , renderScheduleTable = function(tableClass, tracks) {
       return _.template(
-          '<table class="agenda-table"><thead><tr>' + 
+          '<table class="agenda-table {{tableClass}}"><thead><tr>' + 
             '<th></th>' +
             '<% _.forEach(tracks, function(track) { %>' +
               '<th class="text-center">{{ track }}</th>' +
@@ -60,7 +60,7 @@
                   '<% _.forEach(tracks, function(track, index) { %>' +
                     '<td class="text-center <% if (schedule.talks[track] && schedule.talks[track].slotType == "Workshop (2 hours)") { %>workshop<% } %>"> ' +
                     '<% if (schedule.talks[track]) { %>' +
-                      '<span><a class="talk-a" data-talk-key="{{ schedule.talks[track].key }}">{{schedule.talks[track].title}}</a></span><br>' +
+                      '<span><a class="talk-a" data-talk-id="{{ schedule.talks[track].id }}" data-talk-key="{{ schedule.talks[track].key }}">{{schedule.talks[track].title}}</a></span><br>' +
                       '<span>{{schedule.talks[track].author}}</span>' +
                     '<% } %>' +
                     '</td>' +
@@ -69,6 +69,7 @@
               '</tr>' +
             '<% }); %>' +
           '</tbody></table>', {
+          tableClass: tableClass,
           colspan: tracks.length,
           schedules: schedules,
           tracks: tracks
@@ -76,7 +77,10 @@
     }
     , views = {
       asList: function(talksCollection) {
-        return _.template('<div class="columns"><ul class="unstyled small-block-grid-1 medium-block-grid-2">' +
+        return _.template(
+          '<div class="columns">' +
+          '<p data-alert class="alert-box">Talks will last <b>40 minutes + 5 Q&A</b>. Workshops will last <b>one hour and 45 minutes</b>.</p>' +
+          '<ul class="unstyled small-block-grid-1 medium-block-grid-2">' +
           '<% _.forEach(talks, function(talk) { %>' +
             '<li>' +
               '<article class="talk">' +
@@ -94,7 +98,7 @@
               '</p>' +
               '</article>' +
             '</li>' +
-          '<% }); %>' +
+          '<% }); %>' + 
         '</ul></div>', { 
           talks: talksCollection
         }, imports);
@@ -108,9 +112,14 @@
           schedule.talks = _.indexBy(talks, 'track');
           return schedule;
         });
+        
         return '<div class="columns">' + 
-          '<h1>Talks</h1>' + renderScheduleTable(schedules, ['Track 1','Track 2','Track 3','Track 4','Track 5','Track 6','Track 7','Track 8']) +
-          '<h2>Workshops</h2>' + renderScheduleTable(schedules, ['Track A','Track B']) +
+          '<h1>Talks</h1>' + 
+          '<p data-alert class="alert-box">Talks will last <b>40 minutes + 5 Q&A</b>. You will have an additional 15 minutes to change rooms for the next track.' +
+          renderScheduleTable('talks-grid', ['Track 1','Track 2','Track 3','Track 4','Track 5','Track 6','Track 7','Track 8']) +
+          '<h2>Workshops</h2>' + 
+          '<p data-alert class="alert-box">Workshops will last <b>one hour and 45 minutes</b>.' +
+          renderScheduleTable('workshops-grid', ['Track A','Track B']) +
           '</div>'
       }
     }
@@ -147,6 +156,16 @@
       if (filteredTalks.length) {
         var view = views[$('.js-template.selected').data('view')];
         $container.html(view(filteredTalks));
+
+        // remove the break from the workshop, for presentation reasons
+        var $tr = $('.workshops-grid > tbody > tr:last-child');
+        $tr.find('.break').removeClass('break').empty()
+
+        // add the wrap-up text
+        if (currentDate === '2014-11-22') {
+          $('.talks-grid > tbody > tr:last-child > td:last-child').html('WRAP-UP (ON TRACK 1) AND NETWORKING BEER');
+        } 
+
       } else {
         $container.html('<div class="columns"><div class="panel callout radius">No results found</div></div>');
       }
@@ -236,36 +255,52 @@
   $(document).on('click', '.talk-a', function(e) {
     var $a = $(e.currentTarget)
     , talk = talkByKey[$a.data('talk-key')]
-    $('.preview').remove();
-    $('.talk-active').removeClass('talk-active');
-    $a.closest('td').addClass('talk-active');
 
-    var $tr = $(e.currentTarget).closest('tr');
-    $tr.after(_.template(
-      '<tr class="preview"><td></td><td colspan="{{colspan}}">' +
-        '<div class="preview-contents zoomed">' +
-          '<div class="small-6 columns">' +
-            '<h5>{{title}} <small>by {{author}}</small></h5>' +
-            '<p>{{{description}}}</p>' +
-          '</div>' +
-          '<div class="small-6 columns">' +
-            '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
-            '<h5>About {{author}}</h5>' +
-            '<p>{{{bio}}}' +
-          '</div>' +
-          '<div class="columns">' +
-            '<p><span class="secondary label {{level}}"> {{level}}</span> ' +
-              '{{{concatTags(tags, "radius")}}} ' +
-              '{{{concatTags(languages, "secondary round")}}} ' +
-              '<span class="nowrap">{{slotType}}</span> ' +
-          '</div>' +
-        '</div>' +
-      '</td></tr>', _.extend({
-        colspan: $tr.children('td').length - 1
-      }, talk), imports));
+    if ($a.is('.talk-active a')) {
+      $('.preview-contents').addClass('zoomed out');
+      $('.talk-active').removeClass('talk-active');
 
-    // "appear" effect
-    _.defer(function() { $('.zoomed').removeClass('zoomed'); });
+      var $preview = $('.preview');
+
+      // polyfilled if necessary
+      _.delay(function() {
+        $preview.remove();
+      }, 250)
+    } else {
+
+      $('.preview').remove();
+      $('.talk-active').removeClass('talk-active');
+
+      $a.closest('td').addClass('talk-active');
+
+      var $tr = $(e.currentTarget).closest('tr');
+      $tr.after(_.template(
+        '<tr class="preview"><td></td><td colspan="{{colspan}}">' +
+          '<div class="preview-contents zoomed">' +
+            '<div class="small-6 columns">' +
+              '<h5>{{title}} <small>by {{author}}</small></h5>' +
+              '<p>{{{description}}}</p>' +
+            '</div>' +
+            '<div class="small-6 columns">' +
+              '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
+              '<h5>About {{author}}</h5>' +
+              '<p>{{{bio}}}' +
+            '</div>' +
+            '<div class="columns">' +
+              '<p><span class="secondary label {{level}}"> {{level}}</span> ' +
+                '{{{concatTags(tags, "radius")}}} ' +
+                '{{{concatTags(languages, "secondary round")}}} ' +
+                '<span class="nowrap">{{slotType}}</span> ' +
+            '</div>' +
+          '</div>' +
+        '</td></tr>', _.extend({
+          colspan: $tr.children('td').length - 1
+        }, talk), imports));
+
+      // "appear" effect
+      _.defer(function() { $('.zoomed').removeClass('zoomed'); });
+    }
+
   })
 
 })()
