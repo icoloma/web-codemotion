@@ -2,7 +2,8 @@
 
   'use strict';
 
-  var talks = require('./data.js')
+  var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame ||  window.oRequestAnimationFrame || function(f) { _.delay(f, 1000/60) }
+    , talks = require('./data.js')
     , _ = require('../vendor/lodash-2.4.1.min')
     , talkByKey = _.reduce(talks, function(result, talk) {
       talk.key = talk['date'] + 'T' + talk['time'] + '-' + talk.track
@@ -30,6 +31,9 @@
       { time: '17:30', endTime: '18:15' },
       { time: '18:30', endTime: '20:30', value: 'NETWORKING BEER' }
     ]
+    , updateHash = function(talkId) {
+      location.replace($('.tab-title.active > a').attr('href') + (talkId? '/' + talkId : ''));
+    }
     , imports = {
 
       // imports for lo-dash templates
@@ -124,6 +128,9 @@
       }
     }
     , render = function() {
+      //var tabId = $(arguments[0].target).find('.active a').attr('href').substring(1);
+      updateHash();
+
       var filteredTalks = talks;
       if (filters.tag.length) {
         filteredTalks = _.filter(filteredTalks, function(talk) {
@@ -299,8 +306,48 @@
 
       // "appear" effect
       _.defer(function() { $('.zoomed').removeClass('zoomed'); });
+
+      updateHash(talk.id);
     }
 
   })
+
+  // select the day or talk that comes with the hash, or day1 if empty
+  if (location.href.indexOf('agenda') !== -1) {
+    var parts = /(#day[12])(\/.+)?/.exec(location.hash || '')
+    , hash = parts && parts[1] || '#day1'
+
+    // disregard previously existing tabs
+    $('.tab-title.active').removeClass('active')
+    $('.tabs-content > .active').empty().removeClass('active')
+
+    $('a[href="' + hash + '"]').closest('.tab-title').addClass('active');
+    $('#' + hash.substring(1)).addClass('active');
+
+    // select the talk, if any
+    if (parts && parts[2]) {
+      var retries = 0;
+      var f = function() {
+        var $talk = $('.talk-a[data-talk-id="' + parts[2].substring(1) + '"]');
+        if ($talk.length) {
+          $talk.click()
+          $( "html, body" ).animate({
+            // scroll to end of page
+            scrollTop: $talk.offset().top - 200
+          }, 1000);
+        } else {
+          if (retries++ < 1000) {
+            requestAnimationFrame(f);
+          } else {
+            console.error("Cannot find selected talk " + parts[2]);
+          }
+        }
+      };
+      _.delay(f, 300);
+    }
+  }
+
+  // testing 
+  window.__sc = scrollTo;
 
 })()

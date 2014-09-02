@@ -30,7 +30,7 @@
   // update the number of communities in the home page
   $('.communities-count').html(communities.length)
 
-  // trigger render of talks in agenda page
+  // trigger the tab render
   $('.js-talks').trigger('toggled')
 
   // link target to change locale

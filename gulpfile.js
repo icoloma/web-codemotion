@@ -8,7 +8,7 @@ var clean   = require('gulp-clean');
 var concat  = require('gulp-concat');
 var rename  = require('gulp-rename');
 var jshint  = require('gulp-jshint');
-var uglify  = require('gulp-uglify');
+var uglify  = require('gulp-uglifyjs');
 var sass    = require('gulp-sass');
 var csso    = require('gulp-csso');
 
@@ -54,19 +54,15 @@ gulp.task('scripts', function () {
       .pipe(jshint.reporter(require('jshint-stylish'))),
 
     // Concatenate, minify and copy all JavaScript (except vendor scripts)
-    /*
-    gulp.src(['src/js/** 
-    /*.js', '!src/js/vendor/**'])
-      .pipe(concat('app.js'))
-      .pipe(uglify())
-      .pipe(gulp.dest('dist/js'))
-    */
     gulp.src('src/js/app.js')
       .pipe(browserify({
         insertGlobals: true,
         debug: false // true
       }))
-      //.pipe(uglify())
+      .pipe(uglify({
+        outSourceMap: true,
+        basePath: '/js/'
+      }))
       .pipe(gulp.dest('./dist/js')) // pipe it to the output DIR
   );
 });

@@ -25,6 +25,7 @@
     "google-spreadsheet": "^0.2.8",
     "google-spreadsheets": "^0.3.0",
     "gulp-if": "^1.2.1",
+    "gulp-uglifyjs": "^0.4.2",
     "inkscape": "0.0.4",
     "lodash": "^2.4.1"
   }
