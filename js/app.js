@@ -8218,16 +8218,13 @@ exports.communities=[{"className":"GDG-Spain","name":"GDG Spain","url":"http://w
   // update the number of communities in the home page
   $('.communities-count').html(communities.length)
 
-  // trigger render of talks in agenda page
-  $('.js-talks').trigger('toggled')
-
   // link target to change locale
   $('.locale a').attr('href', function() { 
     return location.pathname.replace(/\/((es)|(en))\//, '/' + this.getAttribute('hreflang') + '/')
   })
 
 })(jQuery, window, window.document)
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_bf6d4635.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2bd0505f.js","/")
 },{"./communities":6,"./talks/agenda.js":8,"./vendor/foundation/foundation":11,"./vendor/foundation/foundation.interchange":10,"./vendor/foundation/foundation.tab":12,"./vendor/foundation/foundation.topbar":13,"buffer":1,"lodash":5,"oMfpAn":4}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 (function() {
@@ -8262,6 +8259,9 @@ exports.communities=[{"className":"GDG-Spain","name":"GDG Spain","url":"http://w
       { time: '17:30', endTime: '18:15' },
       { time: '18:30', endTime: '20:30', value: 'NETWORKING BEER' }
     ]
+    , updateHash = function(talkId) {
+      location.replace($('.tab-title.active > a').attr('href') + (talkId? '/' + talkId : ''));
+    }
     , imports = {
 
       // imports for lo-dash templates
@@ -8356,6 +8356,8 @@ exports.communities=[{"className":"GDG-Spain","name":"GDG Spain","url":"http://w
       }
     }
     , render = function() {
+      updateHash();
+
       var filteredTalks = talks;
       if (filters.tag.length) {
         filteredTalks = _.filter(filteredTalks, function(talk) {
@@ -8531,9 +8533,24 @@ exports.communities=[{"className":"GDG-Spain","name":"GDG Spain","url":"http://w
 
       // "appear" effect
       _.defer(function() { $('.zoomed').removeClass('zoomed'); });
+
+      updateHash(talk.id);
     }
 
   })
+
+  // select the day or talk that comes with the hash, or day1 if empty
+  var parts = /(#day[12])(\/.+)?/.exec(location.hash || '')
+  $('.tab-title.active').removeClass('active')
+  $('a[href="' + (parts && parts[1] || '#day1') + '"]').closest('.tab-title').addClass('active');
+  $('.js-talks').trigger('toggled')
+
+  // select the talk, if any
+  if (parts && parts[2]) {
+    _.defer(function() {
+      $('.talk-a[data-talk-id="' + parts[2].substring(1) + '"]').click();
+    });
+  }
 
 })()
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/talks/agenda.js","/talks")
