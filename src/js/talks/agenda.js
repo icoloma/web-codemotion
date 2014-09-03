@@ -214,7 +214,6 @@
 
   $('.tag-filter').click(function(e) {
     e.preventDefault();
-    e.stopPropagating();
     var $this = $(e.target)
       , value = $this.data('tag')
       , selectedClass = 'secondary'
