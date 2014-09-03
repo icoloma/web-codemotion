@@ -32,7 +32,9 @@
       { time: '18:30', endTime: '20:30', value: 'NETWORKING BEER' }
     ]
     , updateHash = function(talkId) {
-      location.replace($('.tab-title.active > a').attr('href') + (talkId? '/' + talkId : ''));
+      if (window.history && history.pushState) {
+        history.pushState({}, document.title, 'agenda.html' + $('.tab-title.active > a').attr('href') + (talkId? '/' + talkId : ''));
+      }
     }
     , imports = {
 
@@ -212,6 +214,7 @@
 
   $('.tag-filter').click(function(e) {
     e.preventDefault();
+    e.stopPropagating();
     var $this = $(e.target)
       , value = $this.data('tag')
       , selectedClass = 'secondary'
