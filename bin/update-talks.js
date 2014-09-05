@@ -126,16 +126,20 @@ GoogleSpreadsheets({
         }
       );
       // save the HTML with agenda of talks
-      console.log("Writing list of talks at src/_includes/talks.html")
+      console.log("Writing list of talks to src/_includes/talks.html")
       fs.writeFile(
         'src/_includes/talks.html', 
         agendaHtml
       );
       // save the json with the array of talks
-      console.log("Writing list of talks at src/js/talks/data.js")
+      console.log("Writing list of talks to src/js/talks/data.js")
       fs.writeFile(
         'src/js/talks/data.js', 
         '(function() { \'use strict\'; module.exports = ' + JSON.stringify(talks) + ';})()'
+      );
+      fs.writeFile(
+        'src/talks.json', 
+        JSON.stringify(talks)
       );
     });
 });
