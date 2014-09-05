@@ -21,14 +21,15 @@ $Mozilla-Hispano: -2px -1237px 196px 60px;
 $NSCoders-Night-Madrid: -2px -1302px 60px 60px;
 $Neo4j-Spain: -2px -1367px 80px 60px;
 $Node-js-Madrid: -2px -1432px 138px 60px;
-$PHPMad: -2px -1497px 60px 60px;
-$Python-Madrid: -2px -1562px 29px 60px;
-$RiojaDotNet: -2px -1627px 60px 60px;
-$ScalaMAD: -2px -1692px 60px 60px;
-$VLCDev: -2px -1757px 60px 60px;
-$W3C-Spain: -2px -1822px 79px 60px;
-$decharlas: -2px -1887px 284px 60px;
-$javaHispano: -2px -1952px 268px 60px;
+$PHP-Valencia: -2px -1497px 231px 60px;
+$PHPMad: -2px -1562px 60px 60px;
+$Python-Madrid: -2px -1627px 29px 60px;
+$RiojaDotNet: -2px -1692px 60px 60px;
+$ScalaMAD: -2px -1757px 60px 60px;
+$VLCDev: -2px -1822px 60px 60px;
+$W3C-Spain: -2px -1887px 79px 60px;
+$decharlas: -2px -1952px 284px 60px;
+$javaHispano: -2px -2017px 268px 60px;
 
 @mixin sprite-width($sprite) {
   width: nth($sprite, 3);
@@ -60,6 +61,6 @@ $javaHispano: -2px -1952px 268px 60px;
 @media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   .community {
     background-image: url('/img/communities/communities-x2.png');
-    background-size: 289px 2015px;
+    background-size: 289px 2080px;
   }
 }
