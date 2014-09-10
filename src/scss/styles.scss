@@ -102,6 +102,10 @@ margin-top: -18px;
   opacity: .8;
 }
 
+[class*="block-grid-"]>li {
+  padding: 0 1rem 1.25rem; // correct padding to separate sponsor logos
+}
+
 .picture-shortcut {
   display: inline-block;
   font-size: 30px;
