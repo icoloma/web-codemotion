@@ -1,8 +1,10 @@
 # ~/.tmuxinator/sample.yml
 # Launches the dev environment (gulp, jekyll and a working shell)
+# tmuxinator create dev
+# tmuxinator open dev
 
-name: dev-codemotion
-# root: ~/
+name: dev
+root: ~/
 
 windows:
   - editor:
