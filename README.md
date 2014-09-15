@@ -5,21 +5,27 @@ The contents of the http://codemotion.es website.
 ## Quick start
 
 ```bash
+sudo apt-get install libjpeg-dev libgif-dev tmux 
 git clone https://github.com/icoloma/web-codemotion.git
 cd web-codemotion
 sudo npm install -g gulp node-inspector 
 sudo gem install jekyll cairo tmuxinator   # or sudo gem update
-sudo apt-get install libjpeg-dev libgif-dev tmux     # for css-sprites
 npm install
 ```
 
-Also (probably)
+After installing properly, execute in two separate shells
 
 ```bash
-sudo npm update -g npm
-sudo npm install -g n
-sudo n 0.10 # or latest?
+gulp
+bin/jekyll
+```
 
+Alternatively, there is a tmuxinator config file included
+
+```
+mkdir -p ~/.tmuxinator
+ln -s $(pwd)/codemotion.yml ~/.tmuxinator
+tmuxinator codemotion
 ```
 
 Building:
@@ -49,8 +55,3 @@ bin/publish
 bin/fontello-update
 ```
 
-Alternatively, launch the dev environment (gulp, jekyll, and a working shell)
-
-```
-./dev.yml
-```
