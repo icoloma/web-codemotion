@@ -1,0 +1,15 @@
+# tmuxinator config to launch the dev environment (gulp, jekyll and a working shell)
+# To use, run:
+# ln -s $(pwd)/codemotion.yml ~/.tmuxinator/
+# tmuxinator start codemotion
+
+name: dev
+root: ~/workspace/web-codemotion
+
+windows:
+  - editor:
+      layout: main-vertical
+      panes:
+        - # empty shell
+        - gulp
+        - ./bin/jekyll
