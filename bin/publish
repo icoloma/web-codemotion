@@ -4,6 +4,8 @@ set -e
 gulp dist
 cp -R dist/* ../web-codemotion-publish/
 cd ../web-codemotion-publish
+
+git add .
 git commit -a -m 'New release'
 git push
 echo New release uploaded successfully
