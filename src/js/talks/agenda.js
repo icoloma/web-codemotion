@@ -3,8 +3,19 @@
   'use strict';
 
   var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame ||  window.oRequestAnimationFrame || function(f) { _.delay(f, 1000/60) }
-    , talks = require('./data.js')
     , _ = require('../vendor/lodash-2.4.1.min')
+    // extract a URL GET parameter value
+    , getUrlParameter = function(name) {
+
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return !results? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+
+    }
+    , talks = require('./data.js')
+    , recommended = (getUrlParameter('recommended') || '').split(',')
+    , favorites = JSON.parse((window.localStorage && window.localStorage.getItem('favorites')) || '[]')
     , talkByKey = _.reduce(talks, function(result, talk) {
       talk.key = talk['date'] + 'T' + talk['time'] + '-' + talk.track
       result[talk.key] = talk
@@ -33,7 +44,9 @@
     ]
     , updateHash = function(talkId) {
       if (window.history && history.pushState) {
-        history.pushState({}, document.title, 'agenda.html' + $('.tab-title.active > a').attr('href') + (talkId? '/' + talkId : ''));
+        history.pushState({}, document.title, 'agenda.html' + 
+          (recommended.length? '?recommended=' + recommended : '') +
+          $('.tab-title.active > a').attr('href') + (talkId? '/' + talkId : ''));
       }
     }
     , imports = {
@@ -63,13 +76,24 @@
                 '<% if (schedule.value) { %>' + 
                   '<td colspan="{{colspan}}" class="text-center break">{{schedule.value}}</td>' +
                 '<% } else { %>' +
-                  '<% _.forEach(tracks, function(track, index) { %>' +
-                    '<td class="text-center <% if (schedule.talks[track] && schedule.talks[track].slotType == "Workshop (2 hours)") { %>workshop<% } %>"> ' +
-                    '<% if (schedule.talks[track]) { %>' +
-                      '<span><a class="talk-a" data-talk-id="{{ schedule.talks[track].id }}" data-talk-key="{{ schedule.talks[track].key }}">{{schedule.talks[track].title}}</a></span><br>' +
-                      '<span>{{schedule.talks[track].author}}</span>' +
-                    '<% } %>' +
-                    '</td>' +
+                  '<% _.forEach(tracks, function(track, index) { %> ' +
+                    '<% if (schedule.talks[track]) { var talk = schedule.talks[track]; %>' +
+                      '<td data-talk-id="{{ talk.id }}" class="text-center agenda-cell ' +
+                        '<% if (talk.slotType == "Workshop (2 hours)") { %>workshop<% } %> ' +
+                        '<% if (favorites.indexOf(talk.id) > -1) { %>favorited<% } %> ' +
+                        '<% if (recommended.indexOf(talk.id) > -1) { %>recommended<% } %> ' +
+                      '">' +
+                        '<div class="text-right">' +
+                          '<span class="icon-recommended icon-heart" title="Recommended by friends"></span> ' +
+                          '<a class="added-to-favorites"><span class="icon-star" aria-label="Click to remove from favorites"></span></a> ' +
+                          '<a class="add-to-favorites"><span class="icon-star-empty" aria-label="Click to add to favorites"></span></a> ' +
+                          '</div>' +
+                        '<span><a class="talk-a" data-talk-id="{{ talk.id }}" data-talk-key="{{ talk.key }}">{{talk.title}}</a></span><br>' +
+                        '<span>{{talk.author}}</span>' +
+                      '</td>' +
+                    '<% } else { %>' +
+                      '<td class="agenda-cell"></td>' + 
+                    '<%} %>' +
                   '<% }); %>' +
                 '<% } %>' +
               '</tr>' +
@@ -78,7 +102,9 @@
           tableClass: tableClass,
           colspan: tracks.length,
           schedules: schedules,
-          tracks: tracks
+          tracks: tracks,
+          favorites: favorites,
+          recommended: recommended
         });
     }
     , views = {
@@ -284,7 +310,7 @@
 
       var $tr = $(e.currentTarget).closest('tr');
       $tr.after(_.template(
-        '<tr class="preview"><td></td><td colspan="{{colspan}}">' +
+        '<tr class="preview {{clazz}}" data-talk-id="{{ talkId }}"><td></td><td colspan="{{colspan}}">' +
           '<div class="preview-contents zoomed">' +
             '<div class="small-6 columns">' +
               '<h5>{{title}} <small>by {{author}}</small></h5>' +
@@ -300,10 +326,23 @@
                 '{{{concatTags(tags, "radius")}}} ' +
                 '{{{concatTags(languages, "secondary round")}}} ' +
                 '<span class="nowrap">{{slotType}}</span> ' +
+              '<div>' +
+                '<a class="preview-action added-to-favorites"><span class="icon-star"></span> Added to favorites</a> ' +
+                '<a class="preview-action add-to-favorites"><span class="icon-star-empty"></span> Add to favorites</a> ' +
+                '<a class="preview-action tweet" target="_blank"><span class="icon-heart-empty"></span> Share my favorites</a> ' +
+              '</div>' +
+              '<div>' +
+                '<span class="preview-action icon-recommended"><span class="icon-heart"></span> Recommended by friends</span> ' +
+                '<a class="icon-recommended clear-recommendations" href="agenda.html">&raquo; clear recommendations</a> ' +
+              '</div>' +
             '</div>' +
           '</div>' +
         '</td></tr>', _.extend({
-          colspan: $tr.children('td').length - 1
+          colspan: $tr.children('td').length - 1,
+          clazz: 
+            (recommended.indexOf(talk.id) > -1? 'recommended ' : ' ') + 
+            (favorites.indexOf(talk.id) > -1? 'favorited ' : ' '),
+          talkId: talk.id
         }, talk), imports));
 
       // "appear" effect
@@ -312,6 +351,29 @@
       updateHash(talk.id);
     }
 
+  })
+
+  // click on add/remove favorite
+  // this method should work when clicked inside a .preview or .agenda-cell
+  $(document).on('click', '.add-to-favorites, .added-to-favorites', function(e) {
+    var $a = $(e.currentTarget)
+    , id = $a.closest('.agenda-cell').find('[data-talk-id]').data('talk-id') || $('.talk-active [data-talk-id]').data('talk-id')
+    
+    if ($a.hasClass('added-to-favorites')) {
+      favorites = _.without(favorites, id)
+    } else {
+      favorites.push(id)
+    }
+
+    $('.preview[data-talk-id="' + id + '"], .agenda-cell[data-talk-id="' + id + '"]').toggleClass('favorited')
+
+    if (window.localStorage) {
+      window.localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+  })
+  .on('click', '.tweet', function(e) {
+    var $a = $(e.currentTarget)
+    $a.attr('href', 'https://twitter.com/home?status=My+selection+of+talks+at+@codemotion_es:+' + location.origin + location.pathname + '?recommended=' + encodeURIComponent(favorites))
   })
 
   // select the day or talk that comes with the hash, or day1 if empty
