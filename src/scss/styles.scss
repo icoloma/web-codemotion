@@ -5,6 +5,7 @@
 */
 
 $margin-small: 10px;
+$green: #008000;
 
 .sticky:not(.fixed) .top-bar-section li:not(.has-form) a:not(.button),
 .sticky:not(.fixed) .top-bar,
@@ -268,19 +269,23 @@ footer {
 
 }
 
-  .small-block-grid-1 > li:first-child > .talk {
-    border-top: 0;
+.small-block-grid-1 > li:first-child > .talk {
+  border-top: 0;
+}
+
+.talk-active {
+  background-color: $primary-color !important;
+  color: #fff;
+
+  a {
+    color: #fff !important;
   }
 
-  .talk-active {
-    background-color: $primary-color !important;
-    color: #fff;
+}
 
-    .talk-a {
-      color: #fff;
-    }
-
-  }
+.talk-active.favorited {
+  background-color: $green !important;
+}
 
 a.label:not(.secondary):hover, a.label:not(.secondary):focus {
   color: #fff;
@@ -359,12 +364,43 @@ legend {
 .agenda-table th {
   white-space: nowrap;
 }
-.agenda-table td {
-  background-color: #fff;
+.agenda-cell {
+  vertical-align: top;
+}
+.agenda-cell.favorited {
+  background: lighten($green, 80%);
+}
+.favorited .add-to-favorites {
+  display: none;
+}
+.added-to-favorites, .tweet {
+  display: none;
+}
+.favorited .added-to-favorites, .favorited .tweet {
+  display: inline;
+}
+.added-to-favorites, .preview-action.added-to-favorites {
+  color: $green;
 
-  &.break {
-    background-color: #F9F9F9;
+  &:hover, &:focus {
+    color: darken($green, 10%);
   }
+}
+.preview-action {
+  color: #666;
+}
+.agenda-cell:not(.talk-active) .icon-heart {
+  color: #ff0000;
+}
+.icon-recommended {
+  display: none;
+}
+.recommended .icon-recommended {
+  display: inline;
+}
+
+&.break {
+  background-color: #F9F9F9;
 }
 .agenda-table p {
   font-size: inherit;
@@ -397,6 +433,8 @@ legend {
 }
 $fast: .2s;
 .preview {
+
+  z-index: 1;
   
   td:first-child {
     border-right: 1px solid #ddd;
@@ -404,6 +442,13 @@ $fast: .2s;
 
   td:nth-child(2) {
     border: 5px solid $primary-color;
+  }
+  
+}
+.preview.favorited {
+  
+  td:nth-child(2) {
+    border-color: $green;
   }
   
 }
@@ -425,6 +470,7 @@ $fast: .2s;
       opacity: .2;
     }
   }
+
 
 @media #{$medium} { 
 

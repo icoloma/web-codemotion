@@ -1,12 +1,31 @@
 #!/bin/bash
 set -e
 
-gulp dist
-cp -R dist/* ../web-codemotion-publish/
-cd ../web-codemotion-publish
+DIR='.upload'
 
-git add .
-git commit -a -m 'New release'
+rm -rf $DIR
+mkdir $DIR
+cd $DIR
+
+git init
+git remote add origin git@github.com:icoloma/web-codemotion.git
+git remote update
+git checkout -b gh-pages origin/gh-pages 
+
+rm -r *
+cp -r ../dist/* .
+
+git add --all .
+if [ -z "$1" ]; then
+  MESSAGE="Site updated at $(date +'%d-%m-%Y')"
+else
+  MESSAGE="$1"
+fi
+git commit -m "$MESSAGE"
 git push
-echo New release uploaded successfully
+
+cd ..
+
+echo "Successfully uploaded" 
 google-chrome http://codemotion.es
+                                   
