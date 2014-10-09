@@ -172,7 +172,7 @@
 
         // add the wrap-up text
         if (currentDate === '2014-11-22') {
-          $('.talks-grid > tbody > tr:last-child > td:last-child').html('WRAP-UP (ON TRACK 1) AND NETWORKING BEER');
+          $('.talks-grid > tbody > tr:last-child > td:last-child').html('WRAP-UP (ON TRACK 1)');
         } 
 
       } else {
