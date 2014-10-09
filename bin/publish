@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+gulp dist
+
 DIR='.upload'
 
 rm -rf $DIR
