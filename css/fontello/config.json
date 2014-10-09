@@ -13,36 +13,6 @@
       "src": "fontawesome"
     },
     {
-      "uid": "d73eceadda1f594cec0536087539afbf",
-      "css": "heart",
-      "code": 59410,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "f3dc2d6d8fe9cf9ebff84dc260888cdf",
-      "css": "heart-empty",
-      "code": 59411,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "474656633f79ea2f1dad59ff63f6bf07",
-      "css": "star",
-      "code": 59413,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "d17030afaecc1e1c22349b99f3c4992a",
-      "css": "star-empty",
-      "code": 59412,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "5211af474d3a9848f67f945e2ccaf143",
-      "css": "cancel",
-      "code": 59414,
-      "src": "fontawesome"
-    },
-    {
       "uid": "531bc468eecbb8867d822f1c11f1e039",
       "css": "calendar",
       "code": 59403,
@@ -83,12 +53,6 @@
       "css": "pencil",
       "code": 59405,
       "src": "typicons"
-    },
-    {
-      "uid": "862129f833b09f3d34ae39acf8484a7b",
-      "css": "heart-broken",
-      "code": 59415,
-      "src": "mfglabs"
     },
     {
       "uid": "88a1241bcbe45c8e9616fd34d0f68a55",
