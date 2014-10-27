@@ -199,6 +199,21 @@
         // add the wrap-up text
         if (currentDate === '2014-11-22') {
           $('.talks-grid > tbody > tr:last-child > td:last-child').html('WRAP-UP (ON TRACK 1)');
+
+          // retrasar la mañana 15 minutos por la competición de cross
+          $('.schedule-time').each(function() {
+            var $this = $(this)
+            , inc15 = function(hour, minute) {
+              var newMinute = parseInt(minute) + 15
+              return newMinute === 60? (parseInt(hour) + 1) + ':00' : hour + ':' + newMinute; 
+            }
+            , text = $this.text()
+            , parts = /(\d\d):(\d\d)-(\d\d):(\d\d)/.exec(text)
+            if (parseInt(parts[1]) < 15) {
+              var newText = inc15(parts[1], parts[2]) + '-' + (text === '14:00-15:30'? '15:30' : inc15(parts[3], parts[4]));
+              $this.text(newText);
+            }
+          })
         } 
 
       } else {
