@@ -200,12 +200,12 @@
         if (currentDate === '2014-11-22') {
           $('.talks-grid > tbody > tr:last-child > td:last-child').html('WRAP-UP (ON TRACK 1)');
 
-          // retrasar la mañana 15 minutos por la competición de cross
+          // adelantar la mañana 15 minutos por la competición de cross
+          // arderé en el infierno por estas diez líneas de código...
           $('.schedule-time').each(function() {
             var $this = $(this)
             , inc15 = function(hour, minute) {
-              var newMinute = parseInt(minute) + 15
-              return newMinute === 60? (parseInt(hour) + 1) + ':00' : hour + ':' + newMinute; 
+              return parseInt(minute) === 0? (parseInt(hour) - 1) + ':45' : hour + ':' + ((parseInt(minute) - 15) || '00'); 
             }
             , text = $this.text()
             , parts = /(\d\d):(\d\d)-(\d\d):(\d\d)/.exec(text)
