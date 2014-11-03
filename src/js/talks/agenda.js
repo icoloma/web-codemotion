@@ -214,6 +214,8 @@
               $this.text(newText);
             //}
           })
+
+          $('.talks-grid > tbody > tr:last-child .schedule-time').html('18:30-19:00');
         } 
 
       } else {
