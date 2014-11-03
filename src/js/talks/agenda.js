@@ -121,7 +121,7 @@
               '<h1>{{talk.title}}</h1>' +
               '<p class="cright">{{{talk.description}}}' +
                 '<br><small>' +
-                  'Author: {{talk.author}} &middot; <b>{{talk.time}} {{talk.track}}</b>' +
+                  'Author: {{talk.author}} &middot; <b><span class="schedule-time">{{talk.time}}</span> {{talk.track}}</b>' +
                   '<br>' +
                     '<span class="secondary label {{talk.level}}"> {{talk.level}}</span> ' +
                     '{{{concatTags(talk.tags, "radius")}}} ' +
@@ -200,7 +200,7 @@
         if (currentDate === '2014-11-22') {
           $('.talks-grid > tbody > tr:last-child > td:last-child').html('WRAP-UP (ON TRACK 1)');
 
-          // adelantar la mañana 15 minutos por la competición de cross
+          // adelantar el sábado 15 minutos por la competición de cross
           // arderé en el infierno por estas diez líneas de código...
           $('.schedule-time').each(function() {
             var $this = $(this)
@@ -208,11 +208,11 @@
               return parseInt(minute) === 0? (parseInt(hour) - 1) + ':45' : hour + ':' + ((parseInt(minute) - 15) || '00'); 
             }
             , text = $this.text()
-            , parts = /(\d\d):(\d\d)-(\d\d):(\d\d)/.exec(text)
-            if (parseInt(parts[1]) < 15) {
-              var newText = inc15(parts[1], parts[2]) + '-' + (text === '14:00-15:30'? '15:30' : inc15(parts[3], parts[4]));
+            , parts = /(\d\d):(\d\d)(-(\d\d):(\d\d))?/.exec(text)
+            //if (parseInt(parts[1]) < 15) {
+              var newText = inc15(parts[1], parts[2]) + (parts[3]? '-' + inc15(parts[4], parts[5]) : '');
               $this.text(newText);
-            }
+            //}
           })
         } 
 
