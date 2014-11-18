@@ -29,6 +29,10 @@
       level: '',
     }
     , currentDate
+    , workshopAdv = {
+      Spanish: 'Los workshops son de libre acceso hasta cubrirse el aforo disponible, aunque los asistentes deberán traer sus propios portátiles. No se permitirá la descarga de software en los workshops para evitar el colapso de la red.',
+      English: 'Workshops are open to everyone, but attendees must bring their own laptops. Downloading software is not allowed during the workshops to avoid collapsing the network.'
+    }
     , schedules = [
       { time: '08:00', endTime: '09:00', value: 'REGISTER AND PICK UP YOUR BADGE' },
       { time: '09:00', endTime: '09:45', value: function() { 
@@ -336,6 +340,9 @@
             '<div class="small-6 columns">' +
               '<h5>{{title}} <small>by {{author}}</small></h5>' +
               '<p>{{{description}}}</p>' +
+              '<% if (slotType == "Workshop (2 hours)") { %>' +
+                '<hr><p>{{workshopAdv[language]}}' +
+              '<% } %>' +
             '</div>' +
             '<div class="small-6 columns">' +
               '<% if (avatar) { %><img class="th right avatar" src="{{avatar}}"><% } %>' + 
@@ -363,7 +370,8 @@
           clazz: 
             (recommended.indexOf(talk.id) > -1? 'recommended ' : ' ') + 
             (favorites.indexOf(talk.id) > -1? 'favorited ' : ' '),
-          talkId: talk.id
+          talkId: talk.id,
+          workshopAdv: workshopAdv
         }, talk), imports));
 
       // "appear" effect
