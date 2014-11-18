@@ -28,6 +28,7 @@
       language: '',
       level: '',
     }
+    , currentDate
     , schedules = [
       { time: '08:00', endTime: '09:00', value: 'REGISTER AND PICK UP YOUR BADGE' },
       { time: '09:00', endTime: '09:45', value: function() { 
@@ -187,7 +188,7 @@
         });
       }
       var $container = $('.tabs-content .active').empty();
-      window.currentDate = $container.data('date')
+      currentDate = $container.data('date');
       filteredTalks = _.filter(filteredTalks, function(talk) {
         return talk.date === currentDate;
       });
