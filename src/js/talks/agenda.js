@@ -30,7 +30,9 @@
     }
     , schedules = [
       { time: '08:00', endTime: '09:00', value: 'REGISTER AND PICK UP YOUR BADGE' },
-      { time: '09:00', endTime: '09:45', value: 'KEYNOTE' },
+      { time: '09:00', endTime: '09:45', value: function() { 
+          return 'KEYNOTE WITH ' + (currentDate === '2014-11-21'? 'TIM MESSERSCHMIDT FROM PAYPAL' : 'ÁNGEL DÍAZ FROM IBM BLUEMIX'); 
+        } },
       { time: '09:45', endTime: '10:30' },
       { time: '10:45', endTime: '11:30' },
       { time: '11:30', endTime: '12:15', value: 'COFEE BREAK' },
@@ -74,7 +76,9 @@
               '<tr>' +
                 '<td class="schedule-time">{{schedule.time}}-{{schedule.endTime}}</td>' +
                 '<% if (schedule.value) { %>' + 
-                  '<td colspan="{{colspan}}" class="text-center break">{{schedule.value}}</td>' +
+                  '<td colspan="{{colspan}}" class="text-center break">' +
+                    '{{_.result(schedule, "value")}}' + 
+                  '</td>' +
                 '<% } else { %>' +
                   '<% _.forEach(tracks, function(track, index) { %> ' +
                     '<% if (schedule.talks[track]) { var talk = schedule.talks[track]; %>' +
@@ -182,9 +186,8 @@
           return !filters.level || filters.level === talk.level;
         });
       }
-      var $container = $('.tabs-content .active').empty()
-        , currentDate = $container.data('date')
-      ;
+      var $container = $('.tabs-content .active').empty();
+      window.currentDate = $container.data('date')
       filteredTalks = _.filter(filteredTalks, function(talk) {
         return talk.date === currentDate;
       });
