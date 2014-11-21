@@ -36,7 +36,7 @@
     , schedules = [
       { time: '08:00', endTime: '09:00', value: 'REGISTER AND PICK UP YOUR BADGE' },
       { time: '09:00', endTime: '09:45', value: function() { 
-          return 'KEYNOTE WITH ' + (currentDate === '2014-11-21'? 'TIM MESSERSCHMIDT FROM PAYPAL' : 'ÁNGEL DÍAZ FROM IBM BLUEMIX'); 
+          return 'KEYNOTE WITH ' + (currentDate === '2014-11-21'? 'TIM MESSERSCHMIDT FROM PAYPAL' : 'ÁNGEL DÍAZ'); 
         } },
       { time: '09:45', endTime: '10:30' },
       { time: '10:45', endTime: '11:30' },
