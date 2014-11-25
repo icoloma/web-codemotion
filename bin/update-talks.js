@@ -32,36 +32,38 @@ var GoogleSpreadsheets = require("google-spreadsheets")
 ;
 
 GoogleSpreadsheets({
-    key: "1RHoQpagq_HazDkOtBQCdc-5df7knqqqvb_3ng7Ncj3I"
+    key: "1aaf6Tj33pjxB53ifPg0IU9EpeLN7X95N-49A87fyFlw"
 }, function(err, spreadsheet) {
     spreadsheet.worksheets[0].cells({
-        range: "R2C1:R300C26"
+        range: "R2C1:R128C17"
     }, function(err, cells) {
       
       // transformar la hoja Excel en charlas
       var talks = [];
       _.forEach(cells.cells, function(row) {
         //console.log(row);
-        var track = getValue(row['25']);
+        var track = getValue(row['16']);
         if (track) {
-          var title = getValue(row['17']);
+          var title = getValue(row['1']);
           talks.push({
             'id': title.toLowerCase().trim().replace(/[^ a-zA-Z0-9\-_]+/g, '').replace(/ +/g, '-'),
-            'author': getValue(row['2']),
-            'language': getValue(row['4']),
-            'tags': getSplittedValue(row['5']),
-            'languages': getSplittedValue(row['6']),
-            'slotType': getValue(row['8']),
-            'description': getValue(row['9']).replace(/(\n *)+/g, '</p><p>'),
-            'communities': _.compact([getValue(row['10']), getValue(row['11']), getValue(row['12'])]),
-            'avatar': getValue(row['13']),
-            'level': getValue(row['14']),
-            'bio': getValue(row['16']).replace(/(\n *)+/g, '</p><p>'),
+            'slides': getValue(row['2']),
+            'video': getValue(row['3']),
+            'interview': getValue(row['4']),
+            'author': getValue(row['5']),
+            'language': getValue(row['6']),
+            'tags': getSplittedValue(row['7']),
+            'languages': getSplittedValue(row['8']),
+            'slotType': getValue(row['9']),
+            'description': getValue(row['10']).replace(/(\n *)+/g, '</p><p>'),
+            'avatar': getValue(row['11']),
+            'level': getValue(row['12']),
+            'bio': getValue(row['13']).replace(/(\n *)+/g, '</p><p>'),
             'title': title,
             //'avatar2': getValue(row['19']), demasiado lío
-            'date': getValue(row['24']),
+            'date': getValue(row['15']),
             'track': track,
-            'time': getValue(row['26']),
+            'time': getValue(row['17']),
           })
         }
       });

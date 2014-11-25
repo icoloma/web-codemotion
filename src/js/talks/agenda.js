@@ -93,10 +93,19 @@
                         '<% if (recommended.indexOf(talk.id) > -1) { %>recommended<% } %> ' +
                       '">' +
                         '<div class="text-right">' +
+                          '<% if (talk.slides) { %>' +
+                            '<a href="{{talk.slides}}" target="_blank" class="link"><span class="icon-slideshare" aria-label="Slides"></span></a> ' +
+                          '<% } %>' +
+                          '<% if (talk.video) { %>' +
+                            '<a href="{{talk.video}}" target="_blank" class="link"><span class="icon-youtube-play" aria-label="Video"></span></a> ' +
+                          '<% } %>' +
+                          '<% if (talk.interview) { %>' +
+                            '<a href="{{talk.interview}}" target="_blank" class="link"><span class="icon-videocam" aria-label="Interview"></span></a> ' +
+                          '<% } %>' +
                           '<span class="icon-recommended icon-heart" title="Recommended by friends"></span> ' +
                           '<a class="added-to-favorites"><span class="icon-star" aria-label="Click to remove from favorites"></span></a> ' +
                           '<a class="add-to-favorites"><span class="icon-star-empty" aria-label="Click to add to favorites"></span></a> ' +
-                          '</div>' +
+                        '</div>' +
                         '<span><a class="talk-a" data-talk-id="{{ talk.id }}" data-talk-key="{{ talk.key }}">{{talk.title}}</a></span><br>' +
                         '<span>{{talk.author}}</span>' +
                       '</td>' +
@@ -129,6 +138,18 @@
               '<% if (talk.avatar2) { %><img class="th toright avatar" src="{{talk.avatar2}}"><% } %>' + 
               '<h1>{{talk.title}}</h1>' +
               '<p class="cright">{{{talk.description}}}' +
+                '<% if (talk.slides || talk.video || talk.interview) { %>' +
+                  '<br>' +
+                  '<% if (talk.slides) { %>' +
+                    '<a href="{{talk.slides}}" target="_blank" class="link"><span class="icon-slideshare"></span> Slides</a>' +
+                  '<% } %>' +
+                  '<% if (talk.video) { %>' +
+                    '<a href="{{talk.video}}" target="_blank" class="link"><span class="icon-youtube-play"></span> Video</a>' +
+                  '<% } %>' +
+                  '<% if (talk.interview) { %>' +
+                    '<a href="{{talk.interview}}" target="_blank" class="link"><span class="icon-videocam"></span> Interview</a>' +
+                  '<% } %>' +
+                '<% } %>' +
                 '<br><small>' +
                   'Author: {{talk.author}} &middot; <b><span class="schedule-time">{{talk.time}}</span> {{talk.track}}</b>' +
                   '<br>' +
@@ -358,6 +379,15 @@
                 '<a class="preview-action added-to-favorites"><span class="icon-star"></span> Added to favorites</a> ' +
                 '<a class="preview-action add-to-favorites"><span class="icon-star-empty"></span> Add to favorites</a> ' +
                 '<a class="preview-action tweet" target="_blank"><span class="icon-heart-empty"></span> Share my favorites</a> ' +
+                '<% if (slides) { %>' +
+                  '<a href="{{slides}}" target="_blank" class="preview-action"><span class="icon-slideshare"></span> Slides</a> ' +
+                '<% } %>' +
+                '<% if (video) { %>' +
+                  '<a href="{{video}}" target="_blank" class="preview-action"><span class="icon-youtube-play"></span> Video</a> ' +
+                '<% } %>' +
+                '<% if (interview) { %>' +
+                  '<a href="{{interview}}" target="_blank" class="preview-action"><span class="icon-videocam"></span> Interview</a> ' +
+                '<% } %>' +
               '</div>' +
               '<div>' +
                 '<span class="preview-action icon-recommended"><span class="icon-heart"></span> Recommended by friends</span> ' +
