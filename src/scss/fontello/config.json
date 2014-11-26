@@ -37,6 +37,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "0f99ab40ab0b4d64a74f2d0deeb03e42",
+      "css": "videocam",
+      "code": 59416,
+      "src": "fontawesome"
+    },
+    {
       "uid": "5211af474d3a9848f67f945e2ccaf143",
       "css": "cancel",
       "code": 59414,
@@ -76,6 +82,18 @@
       "uid": "757afacc32d82967975cbb3b45cfb41b",
       "css": "desktop",
       "code": 59402,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "be13b8c668eb18839d5d53107725f1de",
+      "css": "slideshare",
+      "code": 59417,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "47a1f80457068fbeab69fdb83d7d0817",
+      "css": "youtube-play",
+      "code": 59418,
       "src": "fontawesome"
     },
     {
